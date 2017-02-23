@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+   <head>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+     <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+     <script src = "/js/bootstrap-tagsinput.js" ></script>
+     <script src = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.3/bootstrap-slider.min.js" ></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.3/css/bootstrap-slider.min.css">
+     <link rel="stylesheet" href="/css/bootstrap-tagsinput.css">
+
+     <script src="https://d3js.org/d3.v4.min.js"></script>
+
+     <style>
+       svg{
+         cursor:default;
+       }
+       .pathOn{
+         stroke-width:2;
+         stroke:black;
+       }
+
+
+
+     </style>
+     <script>
+      $(document).ready(function(){
+          $('[data-toggle="popover"]').popover();
+      });
+     </script>
+   </head>
+   <body>
+
+      <h2 style = "text-align: center;">LINTools</h2>
+
+
+
+
+
+      <form action = "http://localhost:5000/contact" method = post enctype="multipart/form-data">
+         <fieldset>
+            <legend>Input</legend>
+            {{ form.hidden_tag() }}
+
+            <div style = font-size:20px; font-weight:bold; margin-left:150px;>
+                <p>You have submitted LINtools run </p>
+                <p>This should have options for analysis</p>
+                <p>Let's get started!</p>
+                <object id="svg1" type="image/svg+xml" data="{{output_name}}/{{output_name}}.svg" width="1000" height="500">
+                  Your browser does not support SVG
+                </object>
+            </div>
+
+         </fieldset>
+      </form>
+
+   </body>
+   <script src = "/js/residue_data.js" >  </script>
+</html>
