@@ -10,14 +10,13 @@ app = Flask(__name__, static_url_path='')
 app.secret_key = 'development key'
 app.config["CACHE_TYPE"] = "null"
 global output_name
+global installation_dir
 
 output_name=""
+installation_dir = os.getcwd()
 @app.route('/js/<path:filename>')
 def serve_static(filename):
-    root_dir = os.getcwd()
-    return send_from_directory(os.path.join(root_dir, 'static', 'js'), filename)
-
-
+    return send_from_directory(os.path.join(installation_dir, 'static', 'js'), filename)
 
 
 @app.route('/ls', methods= ['POST'])
@@ -101,15 +100,14 @@ def contact():
 
 @app.route('/input', methods=['GET', 'POST'])
 def input():
-    if request.method == 'POST':
+    if request.method == 'GET':
         return render_template('input_success.html', form=form, output_name=output_name)
+
+
 
 @app.route('/<path:svgFile>.svg')
 def serve_content(svgFile):
-    print "output:",output_name
-    print os.cwd()
-    #return file(output_name+"/"+output_name+".svg").read()
-    return file("ami_traj2/ami_traj2.svg")
+    return file(output_name+".svg").read()
 
 @app.route('/residenceTime', methods= ['POST'])
 def residenceTime_route():
@@ -119,26 +117,26 @@ def residenceTime_route():
         for res,value in lintools.topol_data.dict_of_plotted_res.items():
             residence_time.append({
                 "resID":res[0]+str(res[1])+"_"+res[2],
-                "resTime" : value,
-                "resOnOff" : lintools.res_time.residues_ratio[res]
+                "resTime" : value
             })
         return jsonify(**{"residence": residence_time,"n_trajs": len(lintools.trajectory)})
+@app.route('/atomData', methods=['POST'])
+def atomData_route():
+    if request.method == 'POST':
+        atom_data = []
+        for atom, coords in lintools.molecule.ligand_atom_coords_from_diagr.items():
+            for descr in lintools.lig_descr.ligand_atoms.values():
+                if atom==descr['name']:
+                    atom_data.append({
+                        "atomName":atom,
+                        "coords": coords,
+                        "formalCharge":descr["Formal charges"],
+                        "GasteigerCh": descr["Gasteiger_ch"],
+                        "MR": descr["MR"],
+                        "logP": descr["logP"]
+                        })
+        return jsonify(**{"atomData": atom_data})
 
-@app.route('/HBonds', methods= ['POST'])
-def HBonds_route():
-    if request.method == "POST":
-        #request_data = request.get_json(force=True)
-        hbonds = []
-        for bond,value in lintools.hbonds.hbonds_on_off.items():
-            percentage =[]
-            for traj in value.values():
-                percentage.append(sum([x for x in traj])/float(len(traj))*100)
-            hbonds.append({
-                "bond":bond,
-                "hbondTime" : value,
-                "percentage": percentage
-            })
-        return jsonify(**{"hbonds": hbonds})
 
 if __name__ == '__main__':
    app.run(debug = True)

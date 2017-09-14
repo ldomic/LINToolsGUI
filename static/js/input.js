@@ -46,7 +46,7 @@ function list_contents(folder, callback){
   })
 }
 
-topology_path = "/"
+topology_path = "/Users/lauradomicevica/"
 topology_filename = ""
 
 //Alowed filetypes - need to update

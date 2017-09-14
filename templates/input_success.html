@@ -39,21 +39,32 @@
 
       <form action = "http://localhost:5000/contact" method = post enctype="multipart/form-data">
          <fieldset>
-            <legend>Input</legend>
             {{ form.hidden_tag() }}
 
             <div style = font-size:20px; font-weight:bold; margin-left:150px;>
-                <p>You have submitted LINtools run </p>
-                <p>This should have options for analysis</p>
-                <p>Let's get started!</p>
-                <object id="svg1" type="image/svg+xml" data="{{output_name}}/{{output_name}}.svg" width="1000" height="500">
+                <h3>The results of LINTools run </h3>
+                <div class="dropdown">
+                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Atom data
+                  <span class="caret"></span></button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" id="GC">Gasteiger charge</a></li>
+                    <li><a href="#" id="logP">logP</a></li>
+                    <li><a href="#" id="MR">MR</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" id="Clear">Clear</a></li>
+                  </ul>
+                </div>
+                <object id="svg1" type="image/svg+xml" data="{{output_name}}.svg" width="1000" height="500">
                   Your browser does not support SVG
                 </object>
             </div>
+
 
          </fieldset>
       </form>
 
    </body>
    <script src = "/js/residue_data.js" >  </script>
+  <script src = "/js/atomData.js"> </script>
+
 </html>
