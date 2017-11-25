@@ -75,6 +75,7 @@ def find_ligand_name(top_data):
             i+=1
     return potential_ligands
 
+@app.route()
 @app.route('/contact', methods = ['GET', 'POST'])
 def contact():
    base_dir = expanduser("~")
